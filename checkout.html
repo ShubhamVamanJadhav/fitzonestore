@@ -1,0 +1,101 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Checkout | FitZone Store</title>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600;800;900&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="css/style.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+</head>
+<body>
+
+    <nav style="background: var(--darker); border-bottom: 1px solid var(--border);">
+        <div class="logo"><a href="index.html">FIT<span>ZONE</span></a></div>
+    </nav>
+
+    <div class="container" style="padding-top: 120px; min-height: 80vh;">
+        <h1 class="section-title">Secure <span>Checkout</span></h1>
+        
+        <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 2rem;">
+            <div class="form-container" style="margin: 0; max-width: 100%;">
+                <h3>Shipping & Billing Details</h3>
+                <form id="checkoutForm">
+                    <div class="form-group">
+                        <label>Full Name</label>
+                        <input type="text" class="form-control" required>
+                    </div>
+                    <div class="form-group">
+                        <label>Address</label>
+                        <input type="text" class="form-control" required>
+                    </div>
+                    
+                    <h3 style="margin-top: 2rem; margin-bottom: 1rem;">Payment Information (Simulated)</h3>
+                    <div style="background: rgba(255,255,255,0.02); padding: 1rem; border-radius: 5px; border: 1px solid var(--border);">
+                        <p style="color: var(--text-muted); font-size: 0.9rem; margin-bottom: 1rem;">
+                            <i class="fas fa-info-circle"></i> Demo payment mode (browser-only): Stripe/PayPal simulation and Razorpay test popup are enabled.
+                        </p>
+                        <div class="form-group">
+                            <label>Card Number</label>
+                            <input type="text" class="form-control" placeholder="**** **** **** ****" value="4242 4242 4242 4242" disabled>
+                        </div>
+                        <div style="display: flex; gap: 1rem;">
+                            <div class="form-group" style="flex:1;">
+                                <label>Expiry</label>
+                                <input type="text" class="form-control" placeholder="MM/YY" value="12/30" disabled>
+                            </div>
+                            <div class="form-group" style="flex:1;">
+                                <label>CVC</label>
+                                <input type="text" class="form-control" placeholder="***" value="123" disabled>
+                            </div>
+                        </div>
+                    </div>
+                    <button type="submit" class="btn" style="width: 100%; margin-top: 2rem;">Pay Now & Place Order</button>
+                </form>
+            </div>
+
+            <div class="cart-summary" style="height: fit-content;">
+                <h3>Order Summary</h3>
+                <hr style="border-color: var(--border); margin: 1rem 0;">
+                <ul id="checkout-items" style="margin-bottom: 1rem; color: var(--text-muted);"></ul>
+                <h2 style="border-top: 1px solid var(--border); padding-top: 1rem;">Total: <span id="checkout-total" style="color: var(--primary);">₹0.00</span></h2>
+            </div>
+        </div>
+    </div>
+
+    <!-- FOOTER -->
+    <footer>
+        <div class="footer-bottom">
+            <p>&copy; 2026 FitZone Store. All rights reserved.</p>
+        </div>
+    </footer>
+
+    <script src="https://checkout.razorpay.com/v1/checkout.js"></script>
+    <script>
+        // Test key only (sandbox). Replace with your own Razorpay test key if needed.
+        window.FITZONE_RAZORPAY_KEY = 'rzp_test_1DP5mmOlF5G5ag';
+    </script>
+    <script src="js/script.js"></script>
+    <script>
+        document.addEventListener('DOMContentLoaded', () => {
+             const itemsUl = document.getElementById('checkout-items');
+             const totalEl = document.getElementById('checkout-total');
+             let localCart = JSON.parse(localStorage.getItem('fitzone_cart')) || [];
+             let total = 0;
+             
+             if(localCart.length === 0) {
+                 window.location.href = 'cart.html';
+             }
+
+             localCart.forEach(item => {
+                 total += item.price * item.quantity;
+                 itemsUl.innerHTML += `<li style="display:flex; justify-content:space-between; margin-bottom: 0.5rem;">
+                    <span>${item.name} x${item.quantity}</span>
+                    <span>₹${(item.price * item.quantity).toFixed(2)}</span>
+                 </li>`;
+             });
+             totalEl.textContent = '₹' + total.toFixed(2);
+        });
+    </script>
+</body>
+</html>

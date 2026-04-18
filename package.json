@@ -1,0 +1,13 @@
+{
+  "name": "fitzone-store",
+  "version": "1.0.0",
+  "description": "FitZone - Premium Gym E-Commerce Store",
+  "scripts": {
+    "start": "npx serve . -p 8080",
+    "dev": "npx serve . -p 8080",
+    "build": "echo \"Static site — no build step required. Deploy the root directory.\""
+  },
+  "keywords": ["gym", "ecommerce", "fitness"],
+  "author": "FitZone Store",
+  "license": "MIT"
+}

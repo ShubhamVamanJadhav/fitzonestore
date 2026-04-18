@@ -1,0 +1,61 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Products | FitZone Store</title>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600;800;900&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="css/style.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+</head>
+<body>
+
+    <nav style="background: var(--darker); border-bottom: 1px solid var(--border);">
+        <div class="logo">
+            <a href="index.html">FIT<span>ZONE</span></a>
+        </div>
+        <ul class="nav-links">
+            <li><a href="index.html">Home</a></li>
+            <li><a href="products.html" style="color:var(--primary);">Products</a></li>
+            <div id="auth-links" style="display:inline-flex; gap: 2rem;">
+                <li><a href="login.html">Login</a></li>
+                <li><a href="register.html">Register</a></li>
+            </div>
+            <li>
+                <a href="cart.html" class="cart-icon">
+                    <i class="fas fa-shopping-cart"></i>
+                    <span id="cart-count" class="cart-count">0</span>
+                </a>
+            </li>
+        </ul>
+    </nav>
+
+    <div class="container" style="padding-top: 120px; min-height: 80vh;">
+        <h1 class="section-title">Our <span>Catalog</span></h1>
+        
+        <div class="filters">
+            <input type="text" id="searchProduct" class="form-control" placeholder="Search by name...">
+            <select id="categoryFilter" class="form-control">
+                <option value="">All Categories</option>
+                <option value="Equipment">Equipment</option>
+                <option value="Supplements">Supplements</option>
+                <option value="Accessories">Accessories</option>
+            </select>
+        </div>
+
+        <div class="product-grid" id="product-grid">
+            <!-- Rendered by JS -->
+        </div>
+    </div>
+
+    <!-- FOOTER -->
+    <footer>
+        <div class="footer-bottom">
+            <p>&copy; 2026 FitZone Store. All rights reserved.</p>
+        </div>
+    </footer>
+
+    <script src="js/script.js"></script>
+
+</body>
+</html>

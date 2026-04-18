@@ -1,0 +1,141 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Payment Successful | FitZone Store</title>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600;800;900&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="css/style.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+    <style>
+        .success-card {
+            text-align: center;
+            background: var(--glass);
+            border: 1px solid rgba(46, 204, 113, 0.3);
+            padding: 4rem;
+            border-radius: 16px;
+            max-width: 560px;
+            margin: 0 auto;
+            animation: fadeInUp 0.7s ease-out;
+        }
+        .success-icon {
+            font-size: 5rem;
+            color: #2ecc71;
+            margin-bottom: 1.5rem;
+            display: block;
+            animation: pop 0.5s ease-out 0.3s both;
+        }
+        @keyframes pop {
+            0%   { transform: scale(0); opacity: 0; }
+            80%  { transform: scale(1.15); }
+            100% { transform: scale(1); opacity: 1; }
+        }
+        .success-card h1 {
+            font-size: 2rem;
+            font-weight: 800;
+            color: #2ecc71;
+            margin-bottom: 0.75rem;
+        }
+        .detail-row {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            background: rgba(255,255,255,0.04);
+            border: 1px solid var(--border);
+            border-radius: 8px;
+            padding: 0.75rem 1rem;
+            margin: 0.5rem 0;
+            font-size: 0.9rem;
+        }
+        .detail-row span:first-child { color: var(--text-muted); }
+        .detail-row span:last-child {
+            font-weight: 700;
+            font-family: monospace;
+            color: var(--light);
+            word-break: break-all;
+            text-align: right;
+            max-width: 280px;
+        }
+        .success-actions {
+            display: flex;
+            gap: 1rem;
+            justify-content: center;
+            margin-top: 2rem;
+            flex-wrap: wrap;
+        }
+        .btn-outline {
+            display: inline-block;
+            padding: 0.8rem 2rem;
+            border: 1px solid var(--primary);
+            color: var(--primary);
+            font-weight: 700;
+            border-radius: 5px;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            transition: 0.3s;
+            cursor: pointer;
+            text-decoration: none;
+        }
+        .btn-outline:hover { background: var(--primary); color: white; }
+    </style>
+</head>
+<body>
+
+    <nav style="background: var(--darker); border-bottom: 1px solid var(--border);">
+        <div class="logo"><a href="index.html">FIT<span>ZONE</span></a></div>
+    </nav>
+
+    <div class="container" style="padding-top: 120px; min-height: 80vh; display: flex; align-items: center; justify-content: center;">
+        <div class="success-card">
+            <i class="fas fa-check-circle success-icon"></i>
+            <h1>Payment Successful!</h1>
+            <p style="color: var(--text-muted); margin-bottom: 2rem;">
+                Thank you for your order. Your payment has been confirmed and your order is being processed.
+            </p>
+
+            <div id="payment-details">
+                <div class="detail-row" id="order-row" style="display:none;">
+                    <span>Order ID</span>
+                    <span id="order-id-display">—</span>
+                </div>
+                <div class="detail-row" id="payment-row" style="display:none;">
+                    <span>Payment ID</span>
+                    <span id="payment-id-display">—</span>
+                </div>
+                <div class="detail-row">
+                    <span>Status</span>
+                    <span style="color: #2ecc71;">&#10003; Confirmed</span>
+                </div>
+            </div>
+
+            <div class="success-actions">
+                <a href="products.html" class="btn">Continue Shopping</a>
+                <a href="index.html" class="btn-outline">Back to Home</a>
+            </div>
+        </div>
+    </div>
+
+    <footer>
+        <div class="footer-bottom">
+            <p>&copy; 2026 FitZone Store. All rights reserved.</p>
+        </div>
+    </footer>
+
+    <script>
+        document.addEventListener('DOMContentLoaded', () => {
+            const params = new URLSearchParams(window.location.search);
+            const orderId   = params.get('order');
+            const paymentId = params.get('payment');
+
+            if (orderId) {
+                document.getElementById('order-id-display').textContent = '#' + orderId;
+                document.getElementById('order-row').style.display = 'flex';
+            }
+            if (paymentId) {
+                document.getElementById('payment-id-display').textContent = paymentId;
+                document.getElementById('payment-row').style.display = 'flex';
+            }
+        });
+    </script>
+</body>
+</html>

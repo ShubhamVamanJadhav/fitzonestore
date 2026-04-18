@@ -1,0 +1,105 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="FitZone Store - Premium Gym Equipment & Supplements. High quality fitness gear.">
+    <meta name="keywords" content="Gym, Fitness, Dumbbells, Protein, Store, Equipment">
+    <title>FitZone Store | Build Your Body</title>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600;800;900&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="css/style.css">
+    <!-- Font Awesome for Icons -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+</head>
+<body>
+
+    <!-- NAVBAR -->
+    <nav>
+        <div class="logo">
+            <a href="index.html">FIT<span>ZONE</span></a>
+        </div>
+        <ul class="nav-links">
+            <li><a href="index.html">Home</a></li>
+            <li><a href="products.html">Products</a></li>
+            <div id="auth-links" style="display:inline-flex; gap: 2rem;">
+                <li><a href="login.html">Login</a></li>
+                <li><a href="register.html">Register</a></li>
+            </div>
+            <li>
+                <a href="cart.html" class="cart-icon">
+                    <i class="fas fa-shopping-cart"></i>
+                    <span id="cart-count" class="cart-count">0</span>
+                </a>
+            </li>
+        </ul>
+    </nav>
+
+    <!-- HERO -->
+    <header class="hero">
+        <div class="hero-content">
+            <h1>Elevate Your <span>Fitness</span></h1>
+            <p>Premium gym equipment, apparel, and supplements to help you crush your goals. Join the elite.</p>
+            <a href="products.html" class="btn">Shop Now</a>
+        </div>
+    </header>
+
+    <section class="categories">
+        <h2 class="section-title">Shop by <span>Category</span></h2>
+        <div class="category-grid container" style="padding-top:0;">
+            <div class="category-card" onclick="window.location.href='products.html?cat=Supplements'">
+                <i class="fas fa-prescription-bottle"></i>
+                <h3>Supplements</h3>
+            </div>
+            <div class="category-card" onclick="window.location.href='products.html?cat=Equipment'">
+                <i class="fas fa-dumbbell"></i>
+                <h3>Equipment</h3>
+            </div>
+            <div class="category-card" onclick="window.location.href='products.html?cat=Accessories'">
+                <i class="fas fa-shopping-bag"></i>
+                <h3>Accessories</h3>
+            </div>
+        </div>
+    </section>
+    <!-- FEATURED PRODUCTS -->
+    <section class="products">
+        <h2 class="section-title">Featured <span>Products</span></h2>
+        <div class="product-grid container" id="featured-products" style="padding-top:0;">
+            <!-- JS will populate fetching from API -->
+        </div>
+        <div style="text-align: center; margin-top: 2rem;">
+            <a href="products.html" class="btn">View All Products</a>
+        </div>
+    </section>
+
+    <!-- FOOTER -->
+    <footer>
+        <div class="container footer-content" style="padding-top:0;">
+            <div class="footer-col">
+                <h3>FIT<span>ZONE</span></h3>
+                <p>Equipping champions worldwide with top-tier fitness gear and supplements.</p>
+            </div>
+            <div class="footer-col">
+                <h3>Quick Links</h3>
+                <ul>
+                    <li><a href="index.html">Home</a></li>
+                    <li><a href="products.html">Products</a></li>
+                    <li><a href="#">Contact Us</a></li>
+                </ul>
+            </div>
+            <div class="footer-col">
+                <h3>Newsletter</h3>
+                <p>Subscribe for fitness tips and special offers.</p>
+                <form id="newsletterForm" style="display:flex; margin-top:1rem;">
+                    <input type="email" placeholder="Your Email" required style="padding: 0.5rem; flex:1; border:none; outline:none;">
+                    <button type="submit" style="padding: 0.5rem 1rem; background: var(--primary); color:white; border:none; cursor:pointer;">Join</button>
+                </form>
+            </div>
+        </div>
+        <div class="footer-bottom">
+            <p>&copy; 2026 FitZone Store. All rights reserved.</p>
+        </div>
+    </footer>
+
+    <script src="js/script.js"></script>
+</body>
+</html>
