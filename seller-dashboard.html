@@ -1,0 +1,219 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Seller Dashboard | FitZone Store</title>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600;800;900&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="css/style.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+</head>
+<body>
+
+    <nav style="background: var(--darker); border-bottom: 1px solid var(--border);">
+        <div class="logo">
+            <a href="index.html">FIT<span>ZONE</span></a>
+        </div>
+        <ul class="nav-links">
+            <li><a href="index.html">Home</a></li>
+            <li><a href="products.html">Products</a></li>
+            <li><a href="seller-dashboard.html" style="color:var(--primary);">Dashboard</a></li>
+            <div id="auth-links" style="display:inline-flex; gap: 2rem;">
+                <li><a href="login.html">Login</a></li>
+                <li><a href="register.html">Register</a></li>
+            </div>
+            <li>
+                <a href="cart.html" class="cart-icon">
+                    <i class="fas fa-shopping-cart"></i>
+                    <span id="cart-count" class="cart-count">0</span>
+                </a>
+            </li>
+        </ul>
+    </nav>
+
+    <div class="container" style="padding-top: 120px; min-height: 80vh;">
+        <h1 class="section-title">Seller <span>Dashboard</span></h1>
+        
+        <div class="dashboard-grid" style="display: grid; grid-template-columns: 1fr 2fr; gap: 2rem;">
+            <!-- Add Product Form -->
+            <div class="form-container" style="margin: 0;">
+                <h3 style="margin-bottom: 1rem;">Add New Product</h3>
+                <form id="addProductForm">
+                    <div class="form-group">
+                        <label>Product Name</label>
+                        <input type="text" id="prodName" class="form-control" required>
+                    </div>
+                    <div class="form-group">
+                        <label>Category</label>
+                        <select id="prodCategory" class="form-control" required>
+                            <option value="Equipment">Equipment</option>
+                            <option value="Supplements">Supplements</option>
+                            <option value="Accessories">Accessories</option>
+                        </select>
+                    </div>
+                    <div class="form-group">
+                        <label>Price (₹)</label>
+                        <input type="number" step="0.01" id="prodPrice" class="form-control" required>
+                    </div>
+                    <div class="form-group">
+                        <label>Image URL</label>
+                        <input type="text" id="prodImage" class="form-control" placeholder="https://..." required>
+                    </div>
+                    <div class="form-group">
+                        <label>Description</label>
+                        <textarea id="prodDesc" class="form-control" rows="3" required></textarea>
+                    </div>
+                    <button type="submit" class="btn" style="width: 100%;">Add Product</button>
+                </form>
+            </div>
+
+            <!-- Products List -->
+            <div>
+                <h3 style="margin-bottom: 1rem;">Your Products</h3>
+                <div id="seller-products" style="display: grid; grid-template-columns: repeat(auto-fill, minmax(200px, 1fr)); gap: 1.5rem;">
+                    <!-- Rendered by JS -->
+                </div>
+            </div>
+
+            <!-- Orders Received -->
+            <div style="grid-column: 1 / -1; margin-top: 2rem;">
+                <h3 style="margin-bottom: 1rem;">Orders Received</h3>
+                <div class="form-container" style="max-width: 100%; padding: 1.5rem;">
+                    <div id="orders-received-list">
+                        <p style="text-align: center; color: var(--text-muted);">No orders received yet.</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- FOOTER -->
+    <footer>
+        <div class="footer-bottom">
+            <p>&copy; 2026 FitZone Store. All rights reserved.</p>
+        </div>
+    </footer>
+
+    <script src="js/script.js"></script>
+    <script>
+        document.addEventListener('DOMContentLoaded', () => {
+            const user = JSON.parse(localStorage.getItem('fitzone_user'));
+            
+            // STRICT ROUTE PROTECTION
+            if (!user || user.role !== 'seller') {
+                alert("Access Denied: You must be logged in as a 'seller' to access this page.");
+                window.location.href = 'login.html';
+                return;
+            }
+
+            fetchSellerProducts();
+
+            document.getElementById('addProductForm').addEventListener('submit', async (e) => {
+                e.preventDefault();
+                const name = document.getElementById('prodName').value;
+                const category = document.getElementById('prodCategory').value;
+                const price = document.getElementById('prodPrice').value;
+                const image = document.getElementById('prodImage').value;
+                const description = document.getElementById('prodDesc').value;
+
+                // Mocking JWT via Authorization header as instructed in the prompt
+                const token = localStorage.getItem('fitzone_token');
+                if(!token) return alert('No token found. Please login again.');
+                const mockJwtToken = "Bearer " + token;
+
+                try {
+                    const response = await fetch('/api/seller/products', {
+                        method: 'POST',
+                        headers: {
+                            'Content-Type': 'application/json',
+                            'Authorization': mockJwtToken
+                        },
+                        body: JSON.stringify({ name, category, price, image, description })
+                    });
+                    const data = await response.json();
+                    if (data.status === 'success') {
+                        alert('Product added successfully!');
+                        e.target.reset();
+                        fetchSellerProducts();
+                    } else {
+                        alert('Error: ' + data.message);
+                    }
+                } catch (err) {
+                    console.error(err);
+                    alert("Failed to add product.");
+                }
+            });
+        });
+
+        async function fetchSellerProducts() {
+            const container = document.getElementById('seller-products');
+            container.innerHTML = '<p>Loading...</p>';
+            
+            const token = localStorage.getItem('fitzone_token');
+            const mockJwtToken = token ? "Bearer " + token : "";
+
+            try {
+                const response = await fetch('/api/seller/products', {
+                    headers: { 'Authorization': mockJwtToken }
+                });
+                const data = await response.json();
+                if (data.status === 'success') {
+                    renderSellerProducts(data.data);
+                } else {
+                    container.innerHTML = '<p>Error loading products.</p>';
+                }
+            } catch (err) {
+                console.error(err);
+                container.innerHTML = '<p>Failed to connect to API.</p>';
+            }
+        }
+
+        function renderSellerProducts(products) {
+            const container = document.getElementById('seller-products');
+            if (products.length === 0) {
+                container.innerHTML = '<p>No products found. Start adding some!</p>';
+                return;
+            }
+
+            container.innerHTML = products.map(p => `
+                <div class="product-card" style="font-size: 0.9em; padding-bottom: 10px;">
+                    <div style="overflow:hidden;">
+                        <img src="${p.image}" alt="${p.name}" class="product-img" style="height:120px; object-fit:cover;">
+                    </div>
+                    <div class="product-info" style="padding: 10px;">
+                        <span class="product-category">${p.category}</span>
+                        <h4 class="product-title" style="margin: 5px 0;">${p.name}</h4>
+                        <div class="product-price-row" style="margin-top: 10px;">
+                            <span class="product-price">₹${parseFloat(p.price).toFixed(2)}</span>
+                            <button class="add-to-cart" style="background:#e74c3c; padding: 5px 10px; font-size: 0.8em;" onclick="deleteProduct(${p.id})">Delete</button>
+                        </div>
+                    </div>
+                </div>
+            `).join('');
+        }
+
+        async function deleteProduct(id) {
+            if (!confirm("Are you sure you want to delete this product?")) return;
+            
+            const token = localStorage.getItem('fitzone_token');
+            const mockJwtToken = "Bearer " + token;
+
+            try {
+                const response = await fetch('/api/seller/products/' + id, {
+                    method: 'DELETE',
+                    headers: { 'Authorization': mockJwtToken }
+                });
+                const data = await response.json();
+                if (data.status === 'success') {
+                    fetchSellerProducts();
+                } else {
+                    alert('Error: ' + data.message);
+                }
+            } catch (err) {
+                console.error(err);
+                alert("Failed to delete product.");
+            }
+        }
+    </script>
+</body>
+</html>

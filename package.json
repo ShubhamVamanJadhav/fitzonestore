@@ -7,7 +7,19 @@
     "dev": "npx serve . -p 8080",
     "build": "echo \"Static site — no build step required. Deploy the root directory.\""
   },
-  "keywords": ["gym", "ecommerce", "fitness"],
+  "keywords": [
+    "gym",
+    "ecommerce",
+    "fitness"
+  ],
   "author": "FitZone Store",
-  "license": "MIT"
+  "license": "MIT",
+  "dependencies": {
+    "bcryptjs": "^3.0.3",
+    "cors": "^2.8.6",
+    "dotenv": "^17.4.2",
+    "express": "^5.2.1",
+    "jsonwebtoken": "^9.0.3",
+    "mongoose": "^9.5.0"
+  }
 }
